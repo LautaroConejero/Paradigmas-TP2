@@ -12,12 +12,9 @@ vector<pair<string,int>> PokemonInfo::getAtaques() const {return AtaquesPorNivel
 
 ostream& operator<<(std::ostream& os, const PokemonInfo& info) {
     os << "Tipo: " << info.getTipo() << "\n";
-    os << "Descripcion: " << info.getDescripcion() << "\n";
-    for (size_t i = 0; i < info.getExp().size(); i++) {
-        os << "Nivel " << i + 1 << ": " << info.getExp()[i] << " XP necesaria\n";
-    }
+    os << "Descripcion: " << info.getDescripcion() << "\n"; 
     for (size_t i = 0; i < info.getAtaques().size(); i++) {
-        os << "Ataque: " << info.getAtaques()[i].first << ", daño: " << info.getAtaques()[i].second << "\n";
+        os << "Ataque " << i+1 << ": " << info.getAtaques()[i].first << ", daño: " << info.getAtaques()[i].second << "\n";
     }
     return os;
 }
