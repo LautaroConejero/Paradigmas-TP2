@@ -12,4 +12,4 @@ class Pokedex {
         bool existePokemon(const Pokemon& pokemon) const;
         void mostrarPokemon(const Pokemon& pokemon) const;
         void mostrarTodos() const;
-}
+};

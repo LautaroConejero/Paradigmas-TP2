@@ -7,10 +7,10 @@ using namespace std;
 
 class Pokemon {
     private:
-        string nombre;
-        int experiencia;
+        string nombre; // n
+        int experiencia; // XP
     public:
-        Pokemon(string nombre, int experiencia);
+        Pokemon(string n, int XP);
         string getNombre() const;
         int getExperiencia() const;
         bool operator==(const Pokemon& other) const;

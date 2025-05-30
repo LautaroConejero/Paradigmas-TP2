@@ -1,23 +1,23 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <memory>
-#include <map>
 #include <vector>
 #include <utility>
 using namespace std;
 
 class PokemonInfo {
     private:
-        string tipo;
-        string descripcion;
-        vector<int> ExperienciaPorNivel; 
-        vector<vectorpair<string,int>> AtaquesPorNivel;
+        string tipo; // t
+        string descripcion; // descip
+        vector<int> ExperienciaPorNivel;  // EPN
+        vector<vector<pair<string,int>>> AtaquesPorNivel; // APN
 
     public:
-        PokemonInfo(string tipo, string descripcion, unordered_map<int, int> EPN, unordered_map<int, vector<pair<string, int>>> APN);
+        PokemonInfo(string t, string descrip, vector<int> EPN, vector<vector<pair<string, int>>> APN);
         string getTipo() const;
         string getDescripcion() const;
         vector<int> getExp() const;
-        vector<vectorpair<string,int>> getAtaques(int nivel) const;
+        vector<vector<pair<string,int>>> getAtaques() const;
         friend ostream& operator<<(ostream& os, const PokemonInfo& info);
 };
