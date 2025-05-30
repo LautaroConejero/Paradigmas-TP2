@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/EJ1.dir/examples/main.cpp.o CMakeFiles/EJ1.dir/srcs/Pokedex.cpp.o CMakeFiles/EJ1.dir/srcs/Pokemon.cpp.o CMakeFiles/EJ1.dir/srcs/PokemonInfo.cpp.o -o bin/EJ1 

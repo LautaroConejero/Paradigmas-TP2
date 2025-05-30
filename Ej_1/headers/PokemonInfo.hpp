@@ -11,13 +11,13 @@ class PokemonInfo {
         string tipo; // t
         string descripcion; // descip
         vector<int> ExperienciaPorNivel;  // EPN
-        vector<vector<pair<string,int>>> AtaquesPorNivel; // APN
+        vector<pair<string,int>> AtaquesPorNivel; // APN
 
     public:
-        PokemonInfo(string t, string descrip, vector<int> EPN, vector<vector<pair<string, int>>> APN);
+        PokemonInfo(string t, string descrip, vector<int> EPN, vector<pair<string, int>> APN);
         string getTipo() const;
         string getDescripcion() const;
         vector<int> getExp() const;
-        vector<vector<pair<string,int>>> getAtaques() const;
+        vector<pair<string,int>> getAtaques() const;
         friend ostream& operator<<(ostream& os, const PokemonInfo& info);
 };

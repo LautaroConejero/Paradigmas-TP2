@@ -1,4 +1,4 @@
-#include "Pokemon.hpp"
+#include "../headers/Pokemon.hpp"
 
 Pokemon::Pokemon(string n, int XP){
     nombre = n;
@@ -14,10 +14,14 @@ string Pokemon::getNombre() const {return nombre;}
 
 int Pokemon::getExperiencia() const {return experiencia;}
 
-bool Pokemon::operator==(const Pokemon& other) const {return nombre == other.getNombre();}  // otra alternativa es usar los getters
+bool Pokemon::operator==(const Pokemon& other) const {return nombre == other.getNombre();}
 
 ostream& operator<<(std::ostream& os, const Pokemon& info) {
     os << "Nombre: " << info.getNombre() << "\n";
-    os << "Experiencia: " << info.getExperiencia() << "\n";
+    os << "Experiencia: " << info.getExperiencia();
     return os;
+}
+
+size_t PokemonHash::operator()(const Pokemon& s) const {
+    return hash<string>()(s.getNombre());
 }

@@ -18,7 +18,7 @@ class Pokemon {
         
 };
 
-class StudentHash {
+class PokemonHash {
     public:
         size_t operator()(const Pokemon& s) const;
 };
