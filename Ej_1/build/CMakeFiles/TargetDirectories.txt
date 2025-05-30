@@ -1,3 +1,0 @@
-/mnt/c/Users/lauta/OneDrive/Escritorio/Paradigmas/Paradigmas-TP2/Ej_1/build/CMakeFiles/EJ1.dir
-/mnt/c/Users/lauta/OneDrive/Escritorio/Paradigmas/Paradigmas-TP2/Ej_1/build/CMakeFiles/edit_cache.dir
-/mnt/c/Users/lauta/OneDrive/Escritorio/Paradigmas/Paradigmas-TP2/Ej_1/build/CMakeFiles/rebuild_cache.dir

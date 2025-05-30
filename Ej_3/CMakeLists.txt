@@ -2,10 +2,13 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Nombre del proyecto
-project(Ej_1)
+project(Ej_3)
 
-# Definir el estandard de C++
+# Definir el estandar de C++
 set(CMAKE_CXX_STANDARD 17)
+
+# Activar todos los warnings
+add_compile_options(-Wall -Wextra -pedantic)
 
 # Los archivos fuente todos juntos
 file(GLOB SOURCES "srcs/*.cpp" "examples/main.cpp")
@@ -17,6 +20,6 @@ add_executable(EJ3 ${SOURCES})
 target_include_directories(EJ3 PRIVATE
 ${CMAKE_SOURCE_DIR}/include)
 
-# Especifica la carpeta donde se creara el ejecutable
+# Especifica la carpeta donde se creará el ejecutable
 set_target_properties(EJ3 PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
