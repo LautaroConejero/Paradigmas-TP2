@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.10)
 project(Ej_2)
 
 # Definir el estandar de C++
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # Activar todos los warnings
 add_compile_options(-Wall -Wextra -pedantic)

@@ -1,10 +1,11 @@
 #include "../headers/Drones.hpp"
 
 int main() {
-    Simulacion simulacion;
+    SimDespegue simulacion;
     vector<jthread> drones;
-    for (int i = 0; i < 6; ++i) {
-        drones.emplace_back(&Simulacion::iniciarSimulacion, &simulacion, i);
+    for (int i = 1; i < 6; ++i) {
+        drones.push_back(jthread(&SimDespegue::Despegue, &simulacion, i));
     }
+
     return 0;
 }

@@ -11,11 +11,11 @@
 #include <chrono>
 using namespace std;
 
-class Simulacion{   
+class SimDespegue{   
     private:
         mutex z_turb[6]; 
     public:
-        Simulacion();
-        void iniciarSimulacion();
-        ~Simulacion();
+        SimDespegue();
+        ~SimDespegue();
+        void Despegue(int dron);
 };
