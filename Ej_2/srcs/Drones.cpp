@@ -18,11 +18,15 @@ void SimDespegue::Despegue(int dron) {
         locked1 = z_turb[dron].try_lock();
         locked2 = z_turb[(dron % 5) + 1].try_lock();
     }
-
+    z_turb[0].lock();
     cout << "\nDron " << dron << " despegando..." << endl;
-    this_thread::sleep_for(chrono::seconds(5));
+    z_turb[0].unlock();
 
+    this_thread::sleep_for(chrono::seconds(5));
+    z_turb[0].lock();
     cout << "\nDron " << dron << " alcanzo la altura de 10m" << endl;
+    z_turb[0].unlock();
+    
     z_turb[dron].unlock();
     z_turb[(dron % 5) + 1].unlock();
     
