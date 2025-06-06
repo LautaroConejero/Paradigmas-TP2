@@ -7,6 +7,10 @@ Pokedex::Pokedex(const string nombre_archivo) : nombreArchivo(nombre_archivo) {
 }
 
 bool Pokedex::existePokemon(const Pokemon& pokemon) const {
+    if (pokemons.empty()) {
+        cout << "La Pokedex esta vacia." << endl;
+        return false;
+    }
     return pokemons.find(pokemon) != pokemons.end();
 }
 
