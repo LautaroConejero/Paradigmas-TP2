@@ -26,6 +26,24 @@ int main() {
     Pokemon Pokemon4("Pikachu", 500);
     pokedex.mostrarPokemon(Pokemon4); // Este Pokemon no existe en la Pokedex
     cout << endl;
+
     
+    cout << "Comprobando la funcionalidad de serializacion y deserializacion" << endl;
+    Pokedex pokedex2("pokedex.bin");
+    cout << endl;
+    
+    cout << "Mostrando La Pokedex cargada desde el archivo" << endl;
+    pokedex2.mostrarTodos();
+    cout << endl;
+
+    pokedex2.sumarPokemon(Pokemon1, PokemonInfo1);
+    pokedex2.sumarPokemon(Pokemon2, PokemonInfo2);
+    pokedex2.sumarPokemon(Pokemon3, PokemonInfo3);
+    cout << endl;
+
+    cout << "Mostrando todos los Pokemon en la Pokedex cargada" << endl;
+    pokedex2.mostrarTodos();
+    cout << endl;
+
     return 0;
 }

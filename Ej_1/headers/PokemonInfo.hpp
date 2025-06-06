@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <fstream>
 #include <utility>
 using namespace std;
 
@@ -21,6 +22,6 @@ class PokemonInfo {
         vector<int> getExp() const;
         vector<pair<string,int>> getAtaques() const;
         friend ostream& operator<<(ostream& os, const PokemonInfo& info);
-        void serializar(ostream& os);
+        void serializar(ostream& os) const;
         void deserializar(istream& is);
 };

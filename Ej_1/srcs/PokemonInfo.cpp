@@ -19,14 +19,14 @@ ostream& operator<<(std::ostream& os, const PokemonInfo& info) {
     return os;
 }
 
-void PokemonInfo::serializar(ostream& os) {
+void PokemonInfo::serializar(ostream& os) const {
     size_t tipo_length = tipo.size();
     os.write(reinterpret_cast<const char*>(&tipo_length), sizeof(tipo_length));
     os.write(tipo.c_str(), tipo_length);
 
     size_t descripcion_length = descripcion.size();
     os.write(reinterpret_cast<const char*>(&descripcion_length), sizeof(descripcion_length));
-    os.write(tipo.c_str(), descripcion_length);
+    os.write(descripcion.c_str(), descripcion_length);
 
     size_t exp_size = ExperienciaPorNivel.size();
     os.write(reinterpret_cast<const char*>(&exp_size), sizeof(exp_size));   

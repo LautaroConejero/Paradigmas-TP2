@@ -26,11 +26,11 @@ size_t PokemonHash::operator()(const Pokemon& s) const {
     return hash<string>()(s.getNombre());
 }
 
-void Pokemon::serializar(ostream& os) {
+void Pokemon::serializar(ostream& os) const {
     size_t nombre_length = nombre.size();
     os.write(reinterpret_cast<const char*>(&nombre_length), sizeof(nombre_length));
     os.write(nombre.c_str(), nombre_length);
-    
+
     os.write(reinterpret_cast<const char*>(&experiencia), sizeof(experiencia));
 
     return;

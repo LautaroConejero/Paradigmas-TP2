@@ -2,12 +2,12 @@
 
 Pokedex::Pokedex() {}
 
-bool Pokedex::existePokemon(const Pokemon& pokemon) const {
-    return pokemons.find(pokemon) != pokemons.end();
-}
-
 Pokedex::Pokedex(const string nombre_archivo) : nombreArchivo(nombre_archivo) {
     cargarDesdeArchivo();
+}
+
+bool Pokedex::existePokemon(const Pokemon& pokemon) const {
+    return pokemons.find(pokemon) != pokemons.end();
 }
 
 void Pokedex::sumarPokemon(const Pokemon& pokemon, const PokemonInfo& info) {
@@ -16,9 +16,8 @@ void Pokedex::sumarPokemon(const Pokemon& pokemon, const PokemonInfo& info) {
         return;
     }
     pokemons.insert(make_pair(pokemon, info));
-    
+
     if (nombreArchivo.empty()) {
-        cout << "No se ha especificado un archivo para guardar la Pokedex." << endl;
         return;
     }
     guardarEnArchivo();
@@ -41,22 +40,26 @@ void Pokedex::mostrarPokemon(const Pokemon& pokemon) const {
 }
 
 void Pokedex::mostrarTodos() const {
+    if (pokemons.empty()) {
+        cout << "La Pokedex esta vacia." << endl;
+        return;
+    }
+
     for (const auto& pair : pokemons) {
         cout << pair.first << endl;
 
+        cout << pair.second; 
         for (size_t i = 0; i < pair.second.getExp().size(); i++) {
-            if (pair.second.getExp()[i] > pair.first.getExperiencia()) {
-                cout << "XP necesario para la proxima evolucion: " << pair.second.getExp()[i] << " XP" << " (Nivel: " << i+1 << ")" << endl;
-                break;
-            }
+            cout << "XP necesario para el nivel " << i + 1 << ": " << pair.second.getExp()[i] << " XP" << endl;
         }
-        cout << pair.second << endl; 
+        cout << endl;
     }
     return;
 }
 
 void Pokedex::guardarEnArchivo() const {
-    ofstream file(nombreArchivo, ios::binary, ios::app);
+    ofstream file(nombreArchivo, ios::binary | ios::app);
+    
     if (!file.is_open()) {
         cerr << "Error al abrir el archivo para guardar la Pokedex." << endl;
         return;
@@ -73,7 +76,7 @@ void Pokedex::guardarEnArchivo() const {
 void Pokedex::cargarDesdeArchivo() {
     ifstream file(nombreArchivo, ios::binary);
     if (!file.is_open()) {
-        cerr << "Error al abrir el archivo para cargar la Pokedex." << endl;
+        cout << "El archivo No pudo abrirse" << endl;
         return;
     }
     while (file.peek() != EOF) {
