@@ -8,8 +8,8 @@ void SimDespegue::Despegue(int dron) {
     cout << "\nDron " << dron << " esperando para despegar..." << endl;   
     z_turb[0].unlock();
 
-    z_turb[dron].lock();
-    z_turb[(dron % 5) + 1].lock();
+    lock_guard<mutex> turb_izq(z_turb[dron]);
+    lock_guard<mutex> turb_der(z_turb[(dron % 5) + 1]);
 
     z_turb[0].lock();
     cout << "\nDron " << dron << " despegando..." << endl;
@@ -18,11 +18,7 @@ void SimDespegue::Despegue(int dron) {
     this_thread::sleep_for(chrono::seconds(5));
     z_turb[0].lock();
     cout << "\nDron " << dron << " alcanzo la altura de 10m" << endl;
-    z_turb[0].unlock();
-
-    z_turb[dron].unlock();
-    z_turb[(dron % 5) + 1].unlock();
-    
+    z_turb[0].unlock();    
     return;
 }
 

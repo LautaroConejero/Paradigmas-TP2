@@ -10,12 +10,14 @@ class Pokemon {
         string nombre; // n
         int experiencia; // XP
     public:
+        Pokemon() = default;
         Pokemon(string n, int XP);
         string getNombre() const;
         int getExperiencia() const;
         bool operator==(const Pokemon& other) const;
         friend ostream& operator<<(ostream& os, const Pokemon& info);
-        
+        void serializar(ostream& os);
+        void deserializar(istream& is);
 };
 
 class PokemonHash {

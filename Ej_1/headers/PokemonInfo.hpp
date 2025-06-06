@@ -14,10 +14,13 @@ class PokemonInfo {
         vector<pair<string,int>> AtaquesPorNivel; // APN
 
     public:
+        PokemonInfo() = default;
         PokemonInfo(string t, string descrip, vector<int> EPN, vector<pair<string, int>> APN);
         string getTipo() const;
         string getDescripcion() const;
         vector<int> getExp() const;
         vector<pair<string,int>> getAtaques() const;
         friend ostream& operator<<(ostream& os, const PokemonInfo& info);
+        void serializar(ostream& os);
+        void deserializar(istream& is);
 };

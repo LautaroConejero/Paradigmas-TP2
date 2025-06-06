@@ -5,13 +5,25 @@ Pokedex::Pokedex() {}
 bool Pokedex::existePokemon(const Pokemon& pokemon) const {
     return pokemons.find(pokemon) != pokemons.end();
 }
+
+Pokedex::Pokedex(const string nombre_archivo) : nombreArchivo(nombre_archivo) {
+    cargarDesdeArchivo();
+}
+
 void Pokedex::sumarPokemon(const Pokemon& pokemon, const PokemonInfo& info) {
     if (existePokemon(pokemon)) {
         cout << "El Pokemon ya existe en la Pokedex." << endl;
         return;
     }
     pokemons.insert(make_pair(pokemon, info));
+    
+    if (nombreArchivo.empty()) {
+        cout << "No se ha especificado un archivo para guardar la Pokedex." << endl;
+        return;
+    }
+    guardarEnArchivo();
 }
+
 void Pokedex::mostrarPokemon(const Pokemon& pokemon) const {
     if (!existePokemon(pokemon)) {
         cout << "El Pokemon " << pokemon.getNombre() <<  " no existe en la Pokedex." << endl;
@@ -43,3 +55,33 @@ void Pokedex::mostrarTodos() const {
     return;
 }
 
+void Pokedex::guardarEnArchivo() const {
+    ofstream file(nombreArchivo, ios::binary, ios::app);
+    if (!file.is_open()) {
+        cerr << "Error al abrir el archivo para guardar la Pokedex." << endl;
+        return;
+    }
+    for (const auto& pair : pokemons) {
+        pair.first.serializar(file);
+        pair.second.serializar(file);
+    }
+    file.close();
+    cout << "Pokedex guardada en el archivo " << nombreArchivo << endl;
+    return;
+}
+
+void Pokedex::cargarDesdeArchivo() {
+    ifstream file(nombreArchivo, ios::binary);
+    if (!file.is_open()) {
+        cerr << "Error al abrir el archivo para cargar la Pokedex." << endl;
+        return;
+    }
+    while (file.peek() != EOF) {
+        Pokemon pokemon;
+        PokemonInfo pokemoninfo;
+
+        pokemon.deserializar(file);
+        pokemoninfo.deserializar(file);
+        pokemons.insert(make_pair(pokemon, pokemoninfo));
+    }
+}
