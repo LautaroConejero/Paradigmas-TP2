@@ -10,8 +10,8 @@ void SimDespegue::Despegue(int dron) {
 
 
     lock(z_turb[dron], z_turb[(dron % 5) + 1]);
-    std::lock_guard<mutex> turb_izq(z_turb[dron], adopt_lock);
-    std::lock_guard<mutex> turb_der(z_turb[(dron % 5) + 1], std::adopt_lock);
+    lock_guard<mutex> turb_izq(z_turb[dron], adopt_lock);
+    lock_guard<mutex> turb_der(z_turb[(dron % 5) + 1], adopt_lock);
 
     z_turb[0].lock();
     cout << "\nDron " << dron << " despegando..." << endl;
