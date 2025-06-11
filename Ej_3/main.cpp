@@ -26,7 +26,7 @@ struct Tarea {
     Tarea(int idSensor, int idTarea): IdSensor(idSensor), IdTarea(idTarea), Descripcion("Tarea " + to_string(idTarea)) {}
 };
 
-// conteiners 
+// containers 
 queue<Tarea> tareas;
 vector<jthread> sensores;
 vector<jthread> robots;
@@ -38,11 +38,11 @@ condition_variable cv;
 void generar_tarea(int idSensor) {
     unique_lock<mutex> lock(gen_tarea);
 
-    int cantTareas = rand() % 6 + 1; // --> Cambiarlo o modificar para intentar de que no se repitan por si alguna vez pasa mistriosamente;
+    int cantTareas = rand() % 5 + 1; // --> Cambiarlo o modificar para intentar de que no se repitan por si alguna vez pasa mistriosamente;
     for (int i = 0; i < cantTareas; i++) {
         this_thread::sleep_for(chrono::milliseconds(175)); // sensores duermiendo
 
-        int idTarea = rand() % 100; 
+        int idTarea = rand() % 100 + 1; 
         Tarea nuevaTarea(idSensor, idTarea);
         tareas.push(nuevaTarea);
         cout << "Sensor " << idSensor << " ha generado la tarea " << idTarea << endl;
@@ -74,10 +74,10 @@ void procesar_tarea(int idRobot) {
 void Monitoreo() {
     srand(time(0)); 
     for (int i = 0; i < 3; ++i) {
-        sensores.push_back(jthread(&generar_tarea, i));
+        sensores.push_back(jthread(&generar_tarea, i+1));
     }
     for (int i = 0; i < 3; ++i) {
-        robots.push_back(jthread(&procesar_tarea, i));
+        robots.push_back(jthread(&procesar_tarea, i+1));
     }
 
 }
