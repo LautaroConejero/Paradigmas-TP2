@@ -19,15 +19,6 @@ using namespace std;
 mutex gen_tarea;
 mutex proc_tarea;
 
-// conteiners 
-queue<Tarea> tareas;
-vector<jthread> sensores;
-vector<Jthread> robots;
-
-// lo del condition
-int sensorCompleto = 0;
-condition_variable cv;
-
 struct Tarea {
     int IdSensor;
     int IdTarea;
@@ -35,10 +26,19 @@ struct Tarea {
     Tarea(int idSensor, int idTarea): IdSensor(idSensor), IdTarea(idTarea), Descripcion("Tarea " + to_string(idTarea)) {}
 };
 
+// conteiners 
+queue<Tarea> tareas;
+vector<jthread> sensores;
+vector<jthread> robots;
+
+// lo del condition
+int sensorCompleto = 0;
+condition_variable cv;
+
 void generar_tarea(int idSensor) {
     unique_lock<mutex> lock(gen_tarea);
 
-    int cantTareas = rand() % 6 + 1;
+    int cantTareas = rand() % 6 + 1; // --> Cambiarlo o modificar para intentar de que no se repitan por si alguna vez pasa mistriosamente;
     for (int i = 0; i < cantTareas; i++) {
         this_thread::sleep_for(chrono::milliseconds(175)); // sensores duermiendo
 
@@ -55,11 +55,13 @@ void generar_tarea(int idSensor) {
 }
 
 void procesar_tarea(int idRobot) {
-    while(!tareas.empty() && !(sensorCompleto == sensoresCantidad)) {
+    while(true) {
         unique_lock<mutex> lock(proc_tarea);
         this_thread::sleep_for(chrono::milliseconds(250)); // robots durmiendo
 
         cv.wait(lock, []{return !tareas.empty() || sensorCompleto == sensoresCantidad;}); // Espera hasta que haya tareas o todos los sensores hayan terminado
+
+        if (tareas.empty() && sensorCompleto == sensoresCantidad) break; // condicion que rompe el ciclo infinito
 
         Tarea tarea = tareas.front();
         tareas.pop();
