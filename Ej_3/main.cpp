@@ -38,7 +38,7 @@ condition_variable cv;
 
 void generar_tarea(int idSensor) {
 
-    int cantTareas = rand() % 5 + 1;
+    int cantTareas = rand() % 5 + 1; // random de tareas
 
     for (int i = 0; i < cantTareas; i++) {
         unique_lock<mutex> lock(m_tarea);
@@ -46,7 +46,7 @@ void generar_tarea(int idSensor) {
         int idTarea = rand() % 100 + 1; 
         Tarea nuevaTarea(idSensor, idTarea);
         tareas.push(nuevaTarea);
-        cout << "Sensor " << idSensor << " ha generado la tarea " << idTarea << endl;
+        cout << "Sensor " << idSensor << " ha generado la tarea " << idTarea << endl << endl;;
 
         cv.notify_one();
         lock.unlock();
@@ -71,8 +71,7 @@ void procesar_tarea(int idRobot) {
 
         Tarea tarea = tareas.front();
         tareas.pop();
-        cout << "Robot " << idRobot << " Termino de procesar la tarea " << tarea.Descripcion << " del sensor " << tarea.IdSensor << endl;
-
+        cout << "Robot " << idRobot << " Termino de procesar la tarea " << tarea.Descripcion << " del sensor " << tarea.IdSensor << endl << endl;
 
         lock.unlock();
         this_thread::sleep_for(chrono::milliseconds(250)); // robots durmiendo
