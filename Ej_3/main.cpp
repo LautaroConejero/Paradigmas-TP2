@@ -57,8 +57,8 @@ void generar_tarea(int idSensor) {
     sensorCompleto++;
     if (sensorCompleto == sensoresCantidad) {
         tareasFinalizadas = true; 
+        cv.notify_all(); // ultimo sensor notifica que ya se temrino (no hay mas push en tareas)
     }
-    cv.notify_all();
 }
 
 void procesar_tarea(int idRobot) {
