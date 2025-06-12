@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_compile_options(-Wall -Wextra -pedantic)
 
 # Los archivos fuente todos juntos
-file(GLOB SOURCES "srcs/*.cpp" "examples/main.cpp")
+file(GLOB SOURCES "main.cpp")
 
 # Crear el ejecutable
 add_executable(EJ3 ${SOURCES})

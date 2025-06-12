@@ -40,6 +40,7 @@ void generar_tarea(int idSensor) {
 
     int cantTareas = rand() % 5 + 1; // --> Cambiarlo o modificar para intentar de que no se repitan por si alguna vez pasa mistriosamente;
     for (int i = 0; i < cantTareas; i++) {
+        unique_lock<mutex> lock(gen_tarea);
         this_thread::sleep_for(chrono::milliseconds(175)); // sensores duermiendo
 
         int idTarea = rand() % 100 + 1; 
@@ -57,7 +58,6 @@ void generar_tarea(int idSensor) {
 void procesar_tarea(int idRobot) {
     while(true) {
         unique_lock<mutex> lock(proc_tarea);
-        this_thread::sleep_for(chrono::milliseconds(250)); // robots durmiendo
 
         cv.wait(lock, []{return !tareas.empty() || sensorCompleto == sensoresCantidad;}); // Espera hasta que haya tareas o todos los sensores hayan terminado
 
@@ -68,21 +68,22 @@ void procesar_tarea(int idRobot) {
         cout << "Robot " << idRobot << " Termino de procesar la tarea " << tarea.Descripcion << " del sensor " << tarea.IdSensor << endl;
 
         lock.unlock();
+        this_thread::sleep_for(chrono::milliseconds(250)); // robots durmiendo
     }
 }
 
 void Monitoreo() {
-    srand(time(0)); 
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < sensoresCantidad; ++i) {
         sensores.push_back(jthread(&generar_tarea, i+1));
     }
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < robotsCantidad; ++i) {
         robots.push_back(jthread(&procesar_tarea, i+1));
     }
 
 }
 
 int main() {
+    srand(time(0)); 
     Monitoreo();
     return 0;
 }
