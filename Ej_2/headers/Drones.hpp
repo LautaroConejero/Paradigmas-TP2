@@ -11,9 +11,11 @@
 #include <chrono>
 using namespace std;
 
+#define Drones 5
+
 class SimDespegue{   
     private:
-        mutex z_turb[6]; 
+        mutex z_turb[Drones + 1]; // mutex para controlar el despegue de los drones, el 0 es para mensajes generales
     public:
         SimDespegue();
         ~SimDespegue();

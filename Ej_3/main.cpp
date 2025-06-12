@@ -15,10 +15,10 @@ using namespace std;
 #define sensoresCantidad 3
 #define robotsCantidad 3
 
+// el mutex para proteger el acceso a la cola de tareas
+mutex m_tarea;
 
-mutex gen_tarea;
-mutex proc_tarea;
-
+// Definicion de la struct Tarea
 struct Tarea {
     int IdSensor;
     int IdTarea;
@@ -33,57 +33,59 @@ vector<jthread> robots;
 
 // lo del condition
 int sensorCompleto = 0;
+bool tareasFinalizadas = false;
 condition_variable cv;
 
 void generar_tarea(int idSensor) {
-    unique_lock<mutex> lock(gen_tarea);
 
-    int cantTareas = rand() % 5 + 1; // --> Cambiarlo o modificar para intentar de que no se repitan por si alguna vez pasa mistriosamente;
+    int cantTareas = rand() % 5 + 1;
+
     for (int i = 0; i < cantTareas; i++) {
-        unique_lock<mutex> lock(gen_tarea);
-        this_thread::sleep_for(chrono::milliseconds(175)); // sensores duermiendo
+        unique_lock<mutex> lock(m_tarea);
 
         int idTarea = rand() % 100 + 1; 
         Tarea nuevaTarea(idSensor, idTarea);
         tareas.push(nuevaTarea);
         cout << "Sensor " << idSensor << " ha generado la tarea " << idTarea << endl;
 
-        cv.notify_one(); // se avisa de una tarea disponible a un thread (robot)
+        cv.notify_one();
+        lock.unlock();
+        this_thread::sleep_for(chrono::milliseconds(175)); // sensores durmiendo
     }
 
-    sensorCompleto++; // el sensor i-esimmo ya temrino de crear las n tareas (suma 1 a la cuenta para tener registro de cuantos sensores terminaron)
-    cv.notify_all(); // al terminar avisa a todos los threads (robots) que las tareas ya etsan disponibles para hacerlas
+    unique_lock<mutex> lock(m_tarea);
+    sensorCompleto++;
+    if (sensorCompleto == sensoresCantidad) {
+        tareasFinalizadas = true; 
+    }
+    cv.notify_all();
 }
 
 void procesar_tarea(int idRobot) {
     while(true) {
-        unique_lock<mutex> lock(proc_tarea);
+        unique_lock<mutex> lock(m_tarea);
+        
+        cv.wait(lock, []{return !tareas.empty() || tareasFinalizadas;}); // Espera hasta que haya tareas o todos los sensores hayan terminado
 
-        cv.wait(lock, []{return !tareas.empty() || sensorCompleto == sensoresCantidad;}); // Espera hasta que haya tareas o todos los sensores hayan terminado
-
-        if (tareas.empty() && sensorCompleto == sensoresCantidad) break; // condicion que rompe el ciclo infinito
+        if (tareas.empty() && tareasFinalizadas) break; // condicion que rompe el ciclo infinito
 
         Tarea tarea = tareas.front();
         tareas.pop();
         cout << "Robot " << idRobot << " Termino de procesar la tarea " << tarea.Descripcion << " del sensor " << tarea.IdSensor << endl;
+
 
         lock.unlock();
         this_thread::sleep_for(chrono::milliseconds(250)); // robots durmiendo
     }
 }
 
-void Monitoreo() {
+int main() {
+    srand(time(0)); 
     for (int i = 0; i < sensoresCantidad; ++i) {
         sensores.push_back(jthread(&generar_tarea, i+1));
     }
     for (int i = 0; i < robotsCantidad; ++i) {
         robots.push_back(jthread(&procesar_tarea, i+1));
     }
-
-}
-
-int main() {
-    srand(time(0)); 
-    Monitoreo();
     return 0;
 }
