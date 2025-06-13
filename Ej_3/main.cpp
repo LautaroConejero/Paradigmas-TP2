@@ -48,7 +48,7 @@ void generar_tarea(int idSensor) {
         tareas.push(nuevaTarea);
         cout << "Sensor " << idSensor << " ha generado la tarea " << idTarea << endl << endl;;
 
-        cv.notify_one();
+        cv.notify_all();
         lock.unlock();
         this_thread::sleep_for(chrono::milliseconds(175)); // sensores durmiendo
     }
