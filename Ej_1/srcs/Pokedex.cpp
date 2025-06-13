@@ -62,7 +62,8 @@ void Pokedex::mostrarTodos() const {
 }
 
 void Pokedex::guardarEnArchivo() const {
-    ofstream file(nombreArchivo, ios::binary | ios::app);
+    string nombreArchivo2 = "../data/" + nombreArchivo;
+    ofstream file(nombreArchivo2, ios::binary | ios::app);
     
     if (!file.is_open()) {
         cerr << "Error al abrir el archivo para guardar la Pokedex." << endl;
@@ -78,7 +79,8 @@ void Pokedex::guardarEnArchivo() const {
 }
 
 void Pokedex::cargarDesdeArchivo() {
-    ifstream file(nombreArchivo, ios::binary);
+    string nombreArchivo2 = "../data/" + nombreArchivo;
+    ifstream file(nombreArchivo2, ios::binary);
     if (!file.is_open()) {
         cout << "El archivo No pudo abrirse" << endl;
         return;
