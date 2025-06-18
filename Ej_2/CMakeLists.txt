@@ -18,7 +18,7 @@ add_executable(EJ2 ${SOURCES})
 
 # Indica los directorios de las librerías y headers
 target_include_directories(EJ2 PRIVATE
-${CMAKE_SOURCE_DIR}/include)
+${CMAKE_SOURCE_DIR}/headers)
 
 # Especifica la carpeta donde se creará el ejecutable
 set_target_properties(EJ2 PROPERTIES

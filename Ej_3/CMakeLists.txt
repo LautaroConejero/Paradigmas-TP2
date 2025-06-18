@@ -16,10 +16,6 @@ file(GLOB SOURCES "main.cpp")
 # Crear el ejecutable
 add_executable(EJ3 ${SOURCES})
 
-# Indica los directorios de las librerías y headers
-target_include_directories(EJ3 PRIVATE
-${CMAKE_SOURCE_DIR}/include)
-
 # Especifica la carpeta donde se creará el ejecutable
 set_target_properties(EJ3 PROPERTIES
 RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

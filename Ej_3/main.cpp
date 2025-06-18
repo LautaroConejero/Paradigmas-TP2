@@ -15,6 +15,9 @@ using namespace std;
 #define sensoresCantidad 3
 #define robotsCantidad 3
 
+void generar_tarea(int idSensor);
+void procesar_tarea(int idRobot);
+
 // el mutex para proteger el acceso a la cola de tareas
 mutex m_tarea;
 
