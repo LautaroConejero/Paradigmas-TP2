@@ -17,6 +17,6 @@ class Pokedex {
         void sumarPokemon(const Pokemon& pokemon, const PokemonInfo& info);
         void mostrarPokemon(const Pokemon& pokemon) const;
         void mostrarTodos() const;
-        void guardarEnArchivo() const;
+        void guardarEnArchivo(const Pokemon& pokemon, const PokemonInfo& info) const;
         void cargarDesdeArchivo();
 };

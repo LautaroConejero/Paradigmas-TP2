@@ -24,7 +24,7 @@ void Pokedex::sumarPokemon(const Pokemon& pokemon, const PokemonInfo& info) {
     if (nombreArchivo.empty()) {
         return;
     }
-    guardarEnArchivo();
+    guardarEnArchivo(pokemon, info);
 }
 
 void Pokedex::mostrarPokemon(const Pokemon& pokemon) const {
@@ -61,7 +61,7 @@ void Pokedex::mostrarTodos() const {
     return;
 }
 
-void Pokedex::guardarEnArchivo() const {
+void Pokedex::guardarEnArchivo(const Pokemon& pokemon, const PokemonInfo& info) const {
     string nombreArchivo2 = "../data/" + nombreArchivo;
     ofstream file(nombreArchivo2, ios::binary | ios::app);
     
@@ -69,12 +69,10 @@ void Pokedex::guardarEnArchivo() const {
         cerr << "Error al abrir el archivo para guardar la Pokedex." << endl;
         return;
     }
-    for (const auto& pair : pokemons) {
-        pair.first.serializar(file);
-        pair.second.serializar(file);
-    }
+    pokemon.serializar(file);
+    info.serializar(file);
+    cout << "Pokemon serializado con exito" << endl;
     file.close();
-    cout << "Pokedex guardada en el archivo " << nombreArchivo << endl;
     return;
 }
 
